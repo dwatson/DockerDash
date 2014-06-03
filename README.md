@@ -1,4 +1,4 @@
 DockerDash
 ==========
 
-Dashboard for showing docker containers and images
+Dashboard for managing docker containers and images
