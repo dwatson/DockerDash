@@ -23,7 +23,6 @@ app.controller("MainCtl", function($scope, $route, $routeParams, $location){
     $scope.$route = $route;
     $scope.$location = $location;
     $scope.$routeParams = $routeParams;
-    console.log($scope.$location);
     $scope.images = [];
     $scope.containers = [];
     var conn = new WebSocket("ws://localhost:8000/ws");
@@ -99,7 +98,6 @@ app.controller("MainCtl", function($scope, $route, $routeParams, $location){
     };
 
     $scope.isActive = function (viewLocation) {
-        console.log($scope.$location.path());
         return viewLocation === $scope.$location.path();
     };
 
