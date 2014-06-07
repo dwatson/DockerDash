@@ -1,0 +1,49 @@
+<div class="row">
+    <div class="col-lg-12">
+        <ol class="breadcrumb">
+            <h1><i class="fa fa-table"></i> Containers <small>List of all containers</small></h1>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+
+     <div class="col-lg-12">
+         <div class="panel panel-primary">
+             <div class="panel-heading">
+                 <h3 class="panel-title"><i class="fa fa-table"></i> Containers</h3>
+             </div>
+             <div class="panel-body">
+                 <div class="table-responsive">
+                     <table class="table table-bordered table-hover table-striped">
+                         <thead>
+                             <tr>
+                                 <th class="header">ID</th>
+                                 <th class="header">IP</th>
+                                 <th class="header">Created</th>
+                                 <th class="header">Image</th>
+                                 <th class="header"></th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             <tr ng-repeat="c in containers track by $index | orderBy:c.ID">
+                                 <td>{{c.ID | limitTo:16}}</td>
+                                 <td>{{c.NetworkSettings.IPAddress}}</td>
+                                 <td>{{c.Created}}</td>
+                                 <td>{{imageTagsFromID(c.Image)}}</td>
+                                 <td>
+                                     <div class="btn-group">
+                                         <button ng-if="c.State.Running == false" type="button" ng-click="start(c.ID)" class="btn btn-primary">Start</button>
+                                         <button ng-if="c.State.Running == true" type="button" ng-click="stop(c.ID)" class="btn btn-primary">Stop</button>
+                                         <button ng-if="c.State.Running == true" type="button" ng-click="kill(c.ID)" class="btn btn-danger">Kill</button>
+                                         <button ng-if="c.State.Running == false" type="button" ng-click="remove(c.ID)" class="btn btn-danger">Remove</button>
+                                     </div>
+                                 </td>
+                             </tr>
+                         </tbody>
+                     </table>
+                 </div>
+             </div>
+         </div>
+     </div>
+</div>

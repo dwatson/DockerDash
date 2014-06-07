@@ -1,0 +1,59 @@
+<div class="row">
+    <div class="col-lg-12">
+        <ol class="breadcrumb">
+            <h1><i class="fa fa-dashboard"></i> Dashboard <small>General overview of docker</small></h1>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-lg-4 col-lg-offset-2">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-6"><i class="fa fa-table fa-7x"></i></div>
+                    <div class="col-xs-6 text-right">
+                        <p class="announcement-heading">{{(containers|filter:runningContainerFilter).length}} / {{containers.length}}</p>
+                        <p class="announcement-text">Containers Running</p>
+                    </div>
+                </div>
+            </div>
+            <a href="/containers">
+                <div class="panel-footer announcement-bottom">
+                    <div class="row">
+                        <div class="col-xs-6">View Containers</div>
+                        <div class="col-xs-6 text-right">
+                            <i class="fa fa-arrow-circle-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-6"><i class="fa fa-picture-o fa-7x"></i></div>
+                    <div class="col-xs-6 text-right">
+                        <p class="announcement-heading">{{images.length}}</p>
+                        <p class="announcement-text">Available Images</p>
+                    </div>
+                </div>
+            </div>
+            <a href="/images">
+                <div class="panel-footer announcement-bottom">
+                    <div class="row">
+                        <div class="col-xs-6">View Images</div>
+                        <div class="col-xs-6 text-right">
+                            <i class="fa fa-arrow-circle-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+</div>
