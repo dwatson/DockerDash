@@ -41,8 +41,7 @@ type JSONCmd struct {
 }
 
 // listener does see images removed but not added
-func listenToDocker(c chan DockerUpdates) {
-    endpoint := "tcp://localhost:4243"
+func listenToDocker(c chan DockerUpdates, endpoint string) {
     client, err := docker.NewClient(endpoint)
     if err != nil {
         log.Fatal(err)
@@ -85,7 +84,7 @@ func sendAll(msg []byte) {
     }
 }
 
-func wsHandler(w http.ResponseWriter, r *http.Request) {
+func wsHandler(w http.ResponseWriter, r *http.Request, endpoint string) {
     // Taken from gorilla's website
     conn, err := websocket.Upgrade(w, r, nil, 1024, 1024)
     if _, ok := err.(websocket.HandshakeError); ok {
@@ -98,7 +97,6 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
     }()
     connections[conn] = true
 
-    endpoint := "tcp://localhost:4243"
     client, error := docker.NewClient(endpoint)
     if error != nil {
         log.Fatal(error)
@@ -140,11 +138,13 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
     }
 }
 
-func serve(port int, dir string) {
+func serve(port int, dir string, endpoint string) {
     fs := http.Dir(dir)
     fileHandler := http.FileServer(fs)
     http.Handle("/", fileHandler)
-    http.HandleFunc("/ws", wsHandler)
+    http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+        wsHandler(w, r, endpoint)
+    })
 
     log.Printf("Serving files from %v at 127.0.0.1:%d", dir, port)
 
@@ -167,17 +167,17 @@ func main() {
     // command line flags
     port := flag.Int("port", 8000, "port to serve on")
     dir := flag.String("directory", "web/", "directory of web files")
+    endpoint := flag.String("endpoint", "unix:///var/run/docker.sock", "docker endpoint")
     flag.Parse()
 
     connections = make(map[*websocket.Conn]bool)
 
-    go serve(*port, *dir)
+    go serve(*port, *dir, *endpoint)
 
     dockerChan := make(chan DockerUpdates)
-    go listenToDocker(dockerChan)
+    go listenToDocker(dockerChan, *endpoint)
 
-    endpoint := "tcp://localhost:4243"
-    client, error := docker.NewClient(endpoint)
+    client, error := docker.NewClient(*endpoint)
     if error != nil {
         log.Fatal(error)
     }
