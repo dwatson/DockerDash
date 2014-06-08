@@ -56,7 +56,7 @@ app.controller("MainCtl", function($scope, $route, $routeParams, $location){
                 container = $scope.containers.filter(function(c) {
                     return c.ID == data.Containers[0].ID;
                 })
-                if (container == undefined) {
+                if (container[0] == undefined) {
                     $scope.containers.push(data.Containers[0]);
                 } else {
                     container[0].State.Running = true;
