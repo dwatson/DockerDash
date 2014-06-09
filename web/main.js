@@ -1,4 +1,4 @@
-var app = angular.module("docker", ['ngRoute']);
+var app = angular.module("docker", ['ngRoute', 'ngAnimate']);
 
 app.config(function($routeProvider, $locationProvider) {
     $routeProvider

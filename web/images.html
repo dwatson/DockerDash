@@ -23,7 +23,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="i in images track by $index | orderBy:i.Id">
+                            <tr ng-repeat="i in images track by $index | orderBy:i.Id"  class="repeatlist">
                                 <td>{{i.Id | limitTo:16}}</td>
                                 <td>{{i.RepoTags[[0]]}}</td>
                                 <td></td>
